@@ -70,7 +70,9 @@ public class JSONConnectorTest extends InstrumentationTestCase {
 		
 		assertNotNull(area);
 		assertEquals(10, area.getStops().size());
+        assertTrue(area.getStops().get(0) != null);
         assertNull(area.getShortName());
+        assertEquals(1000027573, area.getId());
 	}
 
 	private JSONArray readLocalJSonFile(int resourceId) {
