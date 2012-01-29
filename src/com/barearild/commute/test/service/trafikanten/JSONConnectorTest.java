@@ -4,7 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import com.barearild.commute.service.trafikanten.Travel;
+import com.barearild.commute.service.trafikanten.TravelStage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,6 +80,26 @@ public class JSONConnectorTest extends InstrumentationTestCase {
         assertNull(area.getShortName());
         assertEquals(1000027573, area.getId());
 	}
+
+    public void testGetTravelRequest() throws IOException {
+
+        List<Travel> travels = JSONConnector.getTravels(getLocalInputStreamReader(R.raw.travel_test));
+
+        assertNotNull(travels);
+        assertFalse(travels.isEmpty());
+
+        ArrayList<TravelStage> travelStages = travels.get(0).getTravelStages();
+        assertNotNull(travelStages);
+        assertFalse(travelStages.isEmpty());
+
+    }
+
+    private InputStreamReader getLocalInputStreamReader(int resourceId) {
+        Resources res = getInstrumentation().getContext().getResources();
+        InputStream instream = res.openRawResource(resourceId);
+
+        return new InputStreamReader(instream);
+    }
 
 	private JSONArray readLocalJSonFile(int resourceId) {
 		JSONArray result = null;
